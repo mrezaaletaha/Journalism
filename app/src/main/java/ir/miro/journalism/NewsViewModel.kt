@@ -3,12 +3,17 @@ package ir.miro.journalism
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
-    private val _data = MutableLiveData<List<NewsItem>>()
-    val data: LiveData<List<NewsItem>> get() = _data
+/**
+ * @author mrezaaletaha
+ */
 
-    fun fetchData(){
-        repository.getNews()
-    }
+@HiltViewModel
+class NewsViewModel @Inject constructor(private val repository: NewsRepository) : ViewModel() {
+
+    private val _data = MutableLiveData<String>()
+    val data: LiveData<String> get() = _data
+
 }

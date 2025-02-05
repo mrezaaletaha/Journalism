@@ -1,5 +1,9 @@
 package ir.miro.journalism
 
+/**
+ * @author mrezaaletaha
+ */
+
 data class NewsItem(
     val id: Int,
     val title: String,

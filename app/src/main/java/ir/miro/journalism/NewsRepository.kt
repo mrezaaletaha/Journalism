@@ -1,8 +1,11 @@
 package ir.miro.journalism
 
-class NewsRepository {
+import javax.inject.Inject
 
-    fun getNews() {
+/**
+ * @author mrezaaletaha
+ */
 
-    }
+class NewsRepository @Inject constructor() {
+
 }
