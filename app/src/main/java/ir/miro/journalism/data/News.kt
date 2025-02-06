@@ -1,10 +1,10 @@
-package ir.miro.journalism
+package ir.miro.journalism.data
 
 /**
  * @author mrezaaletaha
  */
 
-data class NewsItem(
+data class News(
     val id: Int,
     val title: String,
     val url: String,
