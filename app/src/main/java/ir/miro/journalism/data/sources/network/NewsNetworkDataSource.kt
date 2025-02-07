@@ -1,27 +1,25 @@
 package ir.miro.journalism.data.sources.network
 
-import ir.miro.journalism.data.sources.DataSource
 import ir.miro.journalism.data.News
+import ir.miro.journalism.data.OperationState
 import javax.inject.Inject
-import ir.miro.journalism.data.sources.network.ApiClient.ApiService
 
 /**
  * @author mrezaaletaha
  */
 
 class NewsNetworkDataSource
-@Inject constructor(private val apiService: ApiService) : DataSource {
-    override suspend fun getNews(): ResponseResult<List<News>> {
+@Inject constructor(private val apiService: ApiService) : NetworkDataSource {
+    override suspend fun loadNews(): OperationState<List<News>> {
         return try {
             val response = apiService.allNews()
-            response.let {
-                if (it.isSuccessful && it.body() != null) {
-                    val data = it.body()?.result ?: emptyList()
-                    ResponseResult.Success(data)
-                } else ResponseResult.Error(response.message())
+            if (response.isSuccessful && response.body() != null) {
+                OperationState.Success(response.body()?.results ?: emptyList())
+            } else {
+                OperationState.Error("Something went wrong")
             }
         } catch (e: Exception) {
-            ResponseResult.Error(e.message.toString())
+            OperationState.Error(e.message ?: "Something went wrong")
         }
     }
 }

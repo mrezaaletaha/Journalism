@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.miro.journalism.data.sources.DataSource
-import ir.miro.journalism.data.sources.network.ApiClient
+import ir.miro.journalism.data.sources.network.NetworkDataSource
+import ir.miro.journalism.data.sources.network.ApiService
 import ir.miro.journalism.data.sources.network.NewsNetworkDataSource
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
@@ -19,16 +21,25 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
     @Binds
-    abstract fun bindNetworkDataSource(dataSource: NewsNetworkDataSource): DataSource
+    abstract fun bindNetworkDataSource(dataSource: NewsNetworkDataSource): NetworkDataSource
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Singleton
     @Provides
-    fun provideApiService(): ApiClient.ApiService {
-        return ApiClient.build()
+    fun provideBaseUrl(): String = "https://api.spaceflightnewsapi.net/"
+
+    @Provides
+    fun provideRetrofit(baseUrl: String): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
+
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ApiService =
+        retrofit.create(ApiService::class.java)
 }

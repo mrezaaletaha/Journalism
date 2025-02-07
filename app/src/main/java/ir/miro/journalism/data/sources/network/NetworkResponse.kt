@@ -1,4 +1,4 @@
-package ir.miro.journalism
+package ir.miro.journalism.data.sources.network
 
 import ir.miro.journalism.data.News
 
@@ -10,5 +10,5 @@ data class NetworkResponse(
     val count: Int,
     val next: String,
     val previous: String,
-    val result: List<News>
+    val results: List<News>
 )
