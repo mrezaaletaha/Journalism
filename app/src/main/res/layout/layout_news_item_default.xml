@@ -26,6 +26,7 @@
         <ImageView
             android:id="@+id/imgCover"
             android:layout_width="match_parent"
+            android:scaleType="centerCrop"
             android:layout_height="match_parent"
             android:src="@color/black" />
     </com.google.android.material.card.MaterialCardView>
