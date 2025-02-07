@@ -1,7 +1,6 @@
 package ir.miro.journalism.data
 
 import ir.miro.journalism.data.sources.network.NetworkDataSource
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

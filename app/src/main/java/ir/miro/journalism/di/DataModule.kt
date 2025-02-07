@@ -20,6 +20,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
+
+    @Singleton
     @Binds
     abstract fun bindNetworkDataSource(dataSource: NewsNetworkDataSource): NetworkDataSource
 }
@@ -31,6 +33,7 @@ object NetworkModule {
     @Provides
     fun provideBaseUrl(): String = "https://api.spaceflightnewsapi.net/"
 
+    @Singleton
     @Provides
     fun provideRetrofit(baseUrl: String): Retrofit {
         return Retrofit.Builder()
