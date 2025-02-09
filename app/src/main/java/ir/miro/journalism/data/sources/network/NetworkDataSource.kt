@@ -8,5 +8,8 @@ import ir.miro.journalism.data.OperationState
  */
 
 interface NetworkDataSource {
-    suspend fun loadNews() : OperationState<List<News>>
+    suspend fun loadNews(
+        limit: Int = 10,
+        offset: Int = 0
+    ): OperationState<List<News>>
 }

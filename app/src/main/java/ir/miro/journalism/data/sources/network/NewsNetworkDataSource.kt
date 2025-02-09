@@ -10,13 +10,13 @@ import javax.inject.Inject
 
 class NewsNetworkDataSource
 @Inject constructor(private val apiService: ApiService) : NetworkDataSource {
-    override suspend fun loadNews(): OperationState<List<News>> {
+    override suspend fun loadNews(limit: Int, offset: Int): OperationState<List<News>> {
         return try {
-            val response = apiService.allNews()
+            val response = apiService.allNews(limit = limit, offset = offset)
             if (response.isSuccessful && response.body() != null) {
                 OperationState.Success(response.body()?.results ?: emptyList())
             } else {
-                OperationState.Error("Something went wrong")
+                OperationState.Error("${response.code()}: ${response.message()}")
             }
         } catch (e: Exception) {
             OperationState.Error(e.message ?: "Something went wrong")
