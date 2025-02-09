@@ -49,6 +49,11 @@ class NewsActivity : AppCompatActivity() {
             )
         )
         binding.recyclerNews.adapter = adapter
+
+        binding.swipe.setOnRefreshListener {
+            viewModel.loadNews()
+            binding.swipe.isRefreshing = false
+        }
     }
 
     private fun setupObservers() {

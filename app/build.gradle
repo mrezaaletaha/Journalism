@@ -61,4 +61,5 @@ dependencies {
     ksp libs.androidx.room.compiler
 
     implementation libs.glide
+    implementation libs.androidx.swiperefreshlayout
 }
