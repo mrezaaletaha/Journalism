@@ -1,8 +1,17 @@
 package ir.miro.journalism.data.sources.local
 
-/**
-* @author mrezaaletaha
-*/
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class LocalNews {
-}
+/**
+ * @author mrezaaletaha
+ */
+
+@Entity(tableName = "news")
+data class LocalNews(
+    @PrimaryKey val id: Int = 0,
+    val title: String,
+    val description: String,
+    val imageUrl: String,
+    val createdAt: Long
+)
