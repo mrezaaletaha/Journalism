@@ -1,10 +1,13 @@
 package ir.miro.journalism.data
 
+import android.util.Log
 import ir.miro.journalism.data.sources.local.NewsDao
 import ir.miro.journalism.data.sources.network.NetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.system.measureTimeMillis
+import kotlin.time.measureTime
 
 /**
  * @author mrezaaletaha
@@ -21,17 +24,23 @@ class NewsRepository @Inject constructor(
         }
         if (localNews.isEmpty()) {
             refresh()
+            return getNewsStream()
         }
-        return withContext(Dispatchers.Default) {
-            localNews.toExternal()
-        }
+
+        return localNews.toExternal()
     }
 
     suspend fun refresh() {
-        val remoteNews = withContext(Dispatchers.Default) {
-            networkDatasource.loadNews().toLocal()
+        try {
+            val remoteNews = withContext(Dispatchers.Default) {
+                networkDatasource.loadNews().toLocal()
+            }
+            withContext(Dispatchers.IO) {
+                localDatasource.deleteAll()
+                localDatasource.upsertAll(remoteNews)
+            }
+        } catch (e: Exception) {
+
         }
-        localDatasource.deleteAll()
-        localDatasource.upsertAll(remoteNews)
     }
 }
