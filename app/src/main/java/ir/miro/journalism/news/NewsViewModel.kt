@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.miro.journalism.data.News
 import ir.miro.journalism.data.NewsRepository
-import ir.miro.journalism.data.OperationState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,15 +26,19 @@ class NewsViewModel @Inject constructor(private val repository: NewsRepository) 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun loadNews() {
+    fun loadNews(){
         _isLoading.value = true
         viewModelScope.launch {
-            val result = repository.fetchNews()
+            _news.value = repository.getNewsStream()
             _isLoading.value = false
-            when (result) {
-                is OperationState.Success -> _news.value = result.data
-                is OperationState.Error -> _errorMessage.value = result.message
-            }
+        }
+    }
+
+    fun refresh() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            repository.refresh()
+            _isLoading.value = false
         }
     }
 }

@@ -9,9 +9,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "news")
 data class LocalNews(
-    @PrimaryKey val id: Int = 0,
+    @PrimaryKey val id: Int = 1,
     val title: String,
-    val description: String,
+    val summary: String,
     val imageUrl: String,
+    val url: String,
+    val publishedAt: String,
+    val updatedAt: String,
     val createdAt: Long
 )

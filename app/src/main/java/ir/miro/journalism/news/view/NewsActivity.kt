@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import ir.miro.journalism.R
 import ir.miro.journalism.data.News
 import ir.miro.journalism.databinding.ActivityNewsBinding
 import ir.miro.journalism.news.NewsViewModel
@@ -33,10 +31,7 @@ class NewsActivity : AppCompatActivity() {
 
         setupViews()
         setupObservers()
-    }
 
-    override fun onResume() {
-        super.onResume()
         viewModel.loadNews()
     }
 
@@ -51,14 +46,14 @@ class NewsActivity : AppCompatActivity() {
         binding.recyclerNews.adapter = adapter
 
         binding.swipe.setOnRefreshListener {
-            viewModel.loadNews()
+            viewModel.refresh()
             binding.swipe.isRefreshing = false
         }
     }
 
     private fun setupObservers() {
         viewModel.isLoading.observe(this, loadingObserver)
-        viewModel.news.observe(this, loadNewsObserver)
+        viewModel.news.observe(this, newsObserver)
         viewModel.errorMessage.observe(this, errorMessageObserver)
     }
 
@@ -72,7 +67,7 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
-    private val loadNewsObserver = Observer<List<News>> {
+    private val newsObserver = Observer<List<News>> {
         adapter.submitList(it)
     }
 

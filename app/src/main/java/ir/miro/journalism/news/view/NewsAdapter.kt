@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dagger.hilt.android.qualifiers.ActivityContext
 import ir.miro.journalism.data.News
 import ir.miro.journalism.databinding.LayoutNewsItemDefaultBinding
@@ -48,6 +49,7 @@ class NewsAdapter : ListAdapter<News, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
             binding.txtTitle.text = news.title
             Glide.with(binding.root.context)
                 .load(news.img)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(binding.imgCover)
         }
     }
@@ -58,6 +60,7 @@ class NewsAdapter : ListAdapter<News, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
             binding.txtTitle.text = news.title
             Glide.with(binding.root.context)
                 .load(news.img)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(binding.imgCover)
         }
     }

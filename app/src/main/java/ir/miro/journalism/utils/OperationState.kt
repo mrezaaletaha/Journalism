@@ -1,4 +1,4 @@
-package ir.miro.journalism.data
+package ir.miro.journalism.utils
 
 /**
  * @author mrezaaletaha
